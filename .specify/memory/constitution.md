@@ -1,50 +1,150 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!-- 
+=============== SYNC IMPACT REPORT ===============
+Version Change: N/A → 1.0.0 (Initial Ratification)
+Language: Spanish (Español)
 
-## Core Principles
+Modified Principles: None (Initial Creation)
+Added Sections:
+- Stack Tecnológico Obligatorio
+- Flujo de Desarrollo  
+- Seguridad y Protecciones
+- Versionado y Cambios
+- Gobernanza
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+Removed Sections: None
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Templates Status:
+- .specify/templates/spec-template.md        ✅ Compatible (no changes needed)
+- .specify/templates/plan-template.md        ✅ Compatible (Constitution Check section references constitution)
+- .specify/templates/tasks-template.md       ✅ Compatible (no changes needed)
+- .specify/templates/checklist-template.md   ✅ Compatible (no changes needed)
+- .github/agents/*.agent.md                  ✅ All compatible
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+Dependent Files to Review:
+- README.md - Reference constitution principles for context
+- ARCHITECTURE_GUIDE.md - Align with layered architecture principle
+- SETUP.md / ENVIRONMENT_SETUP.md - Document stack requirements
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+TODO Items: None - All placeholders filled
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+Ratified: 2026-01-28
+===============================================
+-->
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+# Constitución del Proyecto Contoso Dashboard
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+## Principios Fundamentales
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### I. Arquitectura en Capas (Non-Negotiable)
+La aplicación DEBE mantener separación clara entre capas: Presentación (Blazor), Servicios (Lógica de Negocio),
+Datos (Entity Framework). Cada capa tiene responsabilidades definidas:
+- **Presentación**: Solo interfaz de usuario y binding de datos
+- **Servicios**: Lógica de negocio, autorización, validaciones
+- **Datos**: Acceso a base de datos mediante EF Core, contexto centralizado
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+Esta separación garantiza testabilidad, mantenibilidad y reutilización de código.
 
-## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+### II. Seguridad Defensiva en Profundidad (Non-Negotiable)
+Cada solicitud DEBE validarse en múltiples niveles: middleware, atributos de página, y servicios.
+- Protección IDOR obligatoria: verificar autorización antes de acceder a datos
+- Claims-based identity con roles RBAC
+- Validación de autorización en servicios (no confiar solo en atributos `[Authorize]`)
+- Ningún usuario puede acceder a datos de otros usuarios sin autorización explícita
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### III. Separación de Responsabilidades mediante Inyección de Dependencias
+Todos los servicios DEBEN usar interfaces segregadas e inyección de dependencias en constructores.
+- Un servicio = una interfaz pública clara
+- Las dependencias se inyectan, no se instancian directamente
+- Facilita testing, mocking y evolución hacia servicios en la nube
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+### IV. Desarrollo Centrado en Especificaciones (SDD - Spec-Driven Development)
+TODO desarrollo DEBE seguir el flujo: Especificación → Tests → Implementación → Validación.
+- Specs documentan el comportamiento esperado antes de codificar
+- Los tests validan que el código cumple la spec
+- Propósito educativo: enseñar SDD con GitHub Copilot
+
+### V. Diseño sin Dependencias Externas (Offline-First)
+La aplicación DEBE funcionar completamente sin conexión a servicios externos para maximizar disponibilidad en training.
+- Base de datos local (SQL Server LocalDB)
+- Autenticación mock (sin Azure AD, OAuth)
+- Sin integración con servicios en la nube en la rama main
+- Arquitectura preparada para migración futura a Azure (layers abstraídas)
+
+## Stack Tecnológico Obligatorio
+
+- **Framework**: ASP.NET Core 9.0 (actual)
+- **UI**: Blazor Server + Razor Components
+- **ORM**: Entity Framework Core 9.0
+- **Base de Datos**: SQL Server LocalDB (desarrollo), SQL Server (producción si aplica)
+- **Autenticación**: Cookie-based mock con claims (training), preparado para Azure AD
+- **Estilo**: Bootstrap 5.3 con Bootstrap Icons
+- **Control de Versiones**: Git + GitHub con flujo de PR
+
+Cualquier adición o cambio en el stack DEBE ser justificado y documentado.
+
+## Flujo de Desarrollo
+
+### 1. Especificación (`.specify/` templates)
+- Crear spec antes de implementar (use `/speckit.specify`)
+- Spec DEBE incluir: objetivo, funcionalidad, casos de uso, criterios de aceptación
+- Especificación aprobada por el equipo antes de pasar a desarrollo
+
+### 2. Pruebas (TDD)
+- Tests escritos ANTES de la implementación
+- Coverage mínimo del 80% en lógica de servicios
+- Tests de integración para flujos usuario → servicio → BD
+
+### 3. Implementación
+- Código limpio, bien comentado, siguiendo patrones C#/.NET
+- Respeta las capas (no mezclar lógica de UI con servicios)
+- Null safety obligatoria (use null-coalescing, null-conditional operators)
+
+### 4. Validación
+- Compilación sin errores (warnings revisar caso a caso)
+- Todos los tests pasan
+- Code review con GitHub Copilot y equipo
+
+## Seguridad y Protecciones
+
+### Autenticación
+- Mock system basado en cookies (8 horas sliding expiration en training)
+- Claims-based identity con roles (Administrator, Project Manager, Team Lead, Employee)
+- Sistema preparado para migrar a Azure AD / Entra ID
+
+### Autorización (RBAC + IDOR)
+- Todos los endpoints/servicios DEBEN verificar autorización
+- Servicios verifican que el usuario requester tiene acceso al recurso solicitado
+- No asumir que `[Authorize]` es suficiente; validar a nivel de servicio
+
+### Datos Sensibles
+- Información de usuarios (tareas, proyectos, notificaciones) es privada por defecto
+- Cada usuario solo ve sus datos y datos compartidos explícitamente
+- Logs NO contienen datos sensibles
+
+## Versionado y Cambios
+
+- **Versión Semántica**: MAJOR.MINOR.PATCH
+  - MAJOR: Cambios incompatibles (breaking changes en capas/servicios)
+  - MINOR: Nueva funcionalidad que no rompe compatibilidad
+  - PATCH: Bugfixes y mejoras menores
+- **Breaking changes**: DEBEN documentarse con plan de migración
+- **Deprecation**: Función antigua se marca, documentar 2 versiones antes de remover
+
+## Gobernanza
+
+### Cumplimiento
+- Esta Constitución SUPERSEDE todas las otras guías de desarrollo
+- Toda PR DEBE verificarse contra estos principios
+- Violaciones son bloqueantes hasta ser resueltas
+
+### Enmiendas
+- Cambios a la Constitución DEBEN justificarse por escrito
+- Requerir revisión del equipo principal antes de ratificarse
+- Documentar razón de cambio, versión anterior, y fecha en el histórico
+
+### Auditoría
+- Reviews de código verifican adherencia a principios
+- Tests y compilación son gates obligatorios antes de merge
+- Documentación de decisiones arquitectónicas en ADRs (Architecture Decision Records)
+
+**Versión**: 1.0.0 | **Ratificada**: 2026-01-28 | **Última enmienda**: 2026-01-28
