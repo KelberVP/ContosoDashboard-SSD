@@ -1,0 +1,83 @@
+{
+  "copilot": {
+    "enabled": true,
+    "mode": "spec-driven",
+    "scriptEngine": "PowerShell",
+    "version": "1.0",
+    "ai": {
+      "provider": "github",
+      "model": "copilot",
+      "autosuggest": true,
+      "chat": true
+    }
+  },
+  "sdd": {
+    "enabled": true,
+    "mode": "spec-driven",
+    "documentationPath": "./StakeholderDocs",
+    "requirementsFile": "./StakeholderDocs/README.md"
+  },
+  "vscode": {
+    "extensions": [
+      "github.copilot",
+      "github.copilot-chat",
+      "ms-dotnettools.csharp",
+      "ms-dotnettools.csdevkit",
+      "ms-dotnettools.vscode-dotnet-runtime",
+      "ms-vscode.makefile-tools",
+      "github.vscode-pull-request-github"
+    ],
+    "settings": {
+      "editor.inlineSuggest.enabled": true,
+      "github.copilot.enable": true
+    }
+  },
+  "project": {
+    "name": "ContosoDashboard",
+    "type": "ASP.NET Core Blazor Server",
+    "framework": ".NET 8.0+",
+    "database": "SQL Server LocalDB"
+  },
+  "tools": {
+    "required": [
+      {
+        "name": "Git",
+        "minimumVersion": "2.48",
+        "purpose": "Version control"
+      },
+      {
+        "name": ".NET SDK",
+        "minimumVersion": "8.0",
+        "purpose": "Build and run ASP.NET Core"
+      },
+      {
+        "name": "Python",
+        "minimumVersion": "3.11",
+        "purpose": "Scripting and automation"
+      },
+      {
+        "name": "Visual Studio Code",
+        "purpose": "Code editor with Copilot"
+      },
+      {
+        "name": "GitHub Copilot",
+        "purpose": "AI-assisted development"
+      },
+      {
+        "name": "SQL Server LocalDB",
+        "purpose": "Local database"
+      },
+      {
+        "name": "UV Package Manager",
+        "purpose": "Fast Python package management"
+      }
+    ]
+  },
+  "shortcuts": {
+    "inlineSuggestions": "Ctrl+I",
+    "copilotChat": "Ctrl+Shift+I",
+    "commentWithCopilot": "Ctrl+/",
+    "moreSuggestions": "Alt+/",
+    "commandPalette": "Ctrl+Shift+P"
+  }
+}

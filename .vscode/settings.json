@@ -9,6 +9,29 @@
     "chat.tools.terminal.autoApprove": {
         ".specify/scripts/bash/": true,
         ".specify/scripts/powershell/": true
+    },
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true
+    },
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false
+    },
+    "editor.inlineSuggest.enabled": true,
+    "github.copilot.advanced": {
+        "debug.overrideChatModel": "",
+        "debug.testOverrideProxyUrl": "",
+        "debug.useInternalProxyUrl": true,
+        "listMaxResults": 10
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/node_modules": true,
+        "**/bin": true,
+        "**/obj": true
     }
 }
 
